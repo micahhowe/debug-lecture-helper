@@ -1,59 +1,26 @@
 import React, { Component } from 'react';
-import Card from './Card'
-import axios from 'axios';
-import Button from '@material-ui/core/Button';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      vehicles: [],
-      baseUrl: 'https://joes-autos.herokuapp.com/api/vehicles'
+      timer: 0
     }
   }
 
-  getAllVehicles() {
-    axios.get(this.state.baseUrl)
-      .then(res => this.setState({ vehicles: res.data }))
+  componenetDidMount() {
+    console.log('componentDidMount method invoked...')
+    const incrementTimer = () => this.setState({ timer: this.state.timer + 1 })
+    setInterval(incrementTimer, 1000)
   }
 
-  getOne() {
-    axios.get(this.state.baseUrl + '/id/1/')
-      .then(res => this.setState({ vehicles: res.data }))
-  }
-  getGreenVehicles() {
-    axios.get(this.state.baseUrl + '?color=green')
-      .then(res => this.setState({ vehicles: res.data.vehicles }))
-  }
-  getFords() {
-    axios.get(this.state.baseUrl + '?make=tesla')
-      .then(res => this.setState({ vehicles: res.data }))
-  }
 
   render() {
     return (
       <div className="App">
-        <h1>No console.log's allowed!</h1>
-        <p>
-          <Button variant='contained' onClick={() => this.getAllVehicles()}>All Vehicles</Button>
-        </p>
-        <p>
-          <Button variant='contained' onClick={() => this.getOne()}>Vehicle with ID: 1</Button>
-        </p>
-        <p>
-          <Button variant='contained' onClick={() => this.getGreenVehicles()}>Green Vehicles</Button>
-        </p>
-        <p>
-          <Button variant='contained' onClick={() => this.getFords()}>Tesla Vehicles</Button>
-        </p>
-        <hr />
-        <h4>Vehicles:</h4>
-        <div className='card-container'>
-          {
-            this.state.vehicles.map(vehicle => <Card key={vehicle.id} vehicle={vehicle} />)
-          }
-        </div>
+        <p>How many seconds have you been on my app?</p>
+        <p>{this.state.timer} seconds</p>
       </div>
     );
   }
